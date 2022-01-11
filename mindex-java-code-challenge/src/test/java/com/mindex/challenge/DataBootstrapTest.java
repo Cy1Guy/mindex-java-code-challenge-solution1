@@ -1,0 +1,53 @@
+package com.mindex.challenge;
+
+import com.mindex.challenge.dao.EmployeeRepository;
+import com.mindex.challenge.data.Employee;
+import com.mindex.challenge.data.ReportingStructure;
+import com.mindex.challenge.service.EmployeeService;
+import com.mindex.challenge.service.ReportingService;
+import com.mindex.challenge.service.impl.ReportingSerivceImpl;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import static org.junit.Assert.assertEquals;
+
+import static org.junit.Assert.assertNotNull;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class DataBootstrapTest {
+    private static final Logger LOG = LoggerFactory.getLogger(DataBootstrapTest.class);
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+    @Qualifier("getReportingService")
+    @Autowired
+    private ReportingService employ ;
+
+
+
+    @Test
+    public void test() {
+        Employee employee = employeeRepository.findByEmployeeId("16a596ae-edd3-4847-99fe-c4518e82c86f");
+        assertNotNull(employee);
+        assertEquals("John", employee.getFirstName());
+        assertEquals("Lennon", employee.getLastName());
+        assertEquals("Development Manager", employee.getPosition());
+        assertEquals("Engineering", employee.getDepartment());
+    }
+    @Test
+    public void test2(){
+
+       ReportingStructure structure =  employ.read("16a596ae-edd3-4847-99fe-c4518e82c86f");
+        Assert.assertNotNull(structure);
+        LOG.info("asserting name :-" + structure.getEmployee().getFirstName());
+        Assert.assertEquals(structure.getEmployee().getFirstName(),"John");
+        Assert.assertEquals(structure.getEmployee().getLastName(),"Lennon");
+    }
+}
