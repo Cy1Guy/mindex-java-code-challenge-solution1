@@ -1,6 +1,8 @@
 package com.mindex.challenge.config;
 
 import com.mindex.challenge.dao.EmployeeRepository;
+import com.mindex.challenge.service.ReportingService;
+import com.mindex.challenge.service.impl.ReportingSerivceImpl;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import de.bwaldvogel.mongo.MongoServer;
@@ -18,6 +20,10 @@ public class MongoConfig{
     @Bean
     public MongoTemplate mongoTemplate(MongoClient mongoClient) {
         return new MongoTemplate(mongoDbFactory(mongoClient));
+    }
+    @Bean
+    public ReportingService getReportingService(){
+        return new ReportingSerivceImpl();
     }
 
     @Bean
